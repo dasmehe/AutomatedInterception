@@ -4,6 +4,7 @@ var canShoot : bool = true
 
 var SPEED : float = 0.015
 var DMG : float = 1.0
+var HEALTH : float = 1.5
 
 const RANGE : Vector2 = Vector2(1, 1)
 
@@ -27,6 +28,7 @@ func _ready() -> void:
 	input_pickable = true
 	mouse_entered.connect(onMouseEntered)
 	mouse_exited.connect(onMouseLeft)
+	SetTarget()
 	
 func onMouseLeft():
 	MouseInObj = false
@@ -38,26 +40,28 @@ func SetTarget():
 	if !hacked:
 		Target = player
 	else:
-		var all_enemys : Array[Node] = get_tree().get_nodes_in_group("enemy")
+		var all_enemys : Array[Node] = get_tree().get_nodes_in_group("Enemy")
 		var closest_enemy = null
+		print_debug(get_groups())
 
 		if all_enemys.is_empty():
 			print_debug("Fuck, there are no enemys to kill")
-			Target = null
-		else:
+			pass
+		if (all_enemys.size() > 0):
+			closest_enemy = all_enemys[0]
 			for enemy in all_enemys:
-				closest_enemy = all_enemys[0]
-				var this_enemys_distance = global_position.distance_squared_to(enemy.global_position)
-				var closest_enemys_distance = global_position.distance_squared_to(closest_enemy.global_position)
-				if this_enemys_distance > closest_enemys_distance:
-					closest_enemys_distance = this_enemys_distance
+				var distance_to_this_enemy = global_position.distance_squared_to(enemy.global_position)
+				var distance_to_closest_enemy = global_position.distance_squared_to(closest_enemy.global_position)
+				if (distance_to_this_enemy < distance_to_closest_enemy):
 					closest_enemy = enemy
-			Target = closest_enemy
 
-func on_hacked():
-	SetTarget()
+
+		Target = closest_enemy
+
+func on_hack():
 	remove_from_group("Enemy")
-	add_to_group("Hacked")
+	add_to_group("hacked")
+	SetTarget()
 
 func shoot(dmg : float, speed : int, dir : Vector2, swnpnt : Vector2, targetGroup : String) -> void:
 
@@ -79,8 +83,8 @@ func shoot(dmg : float, speed : int, dir : Vector2, swnpnt : Vector2, targetGrou
 	get_parent().get_parent().add_child(bullet)
 
 func _process(delta):
-
-	$hinge.look_at(player.global_position)
+	if Target:
+		$hinge.look_at(Target.global_position)
 
 	$HackingProgressBar.value = HackingProgress
 
@@ -92,7 +96,7 @@ func _process(delta):
 	# Makes the enemy hacked
 	if $HackingProgressBar.max_value == $HackingProgressBar.value:
 		hacked = true
-		on_hacked()
+		on_hack()
 	
 	# Only moves if not hacked
 	if !hacked:
@@ -100,7 +104,7 @@ func _process(delta):
 		get_parent().progress_ratio += SPEED * delta
 
 		# Shoots
-	if canShoot:
+	if canShoot && Target:
 		SetTarget()
 		
 		var spwpnt = $hinge/bulletSpawnpoint.global_position
@@ -108,9 +112,10 @@ func _process(delta):
 		var dir = (Target.global_position - spwpnt).normalized();
 		#print_debug(str(spwpnt)  + " to " + str(Target.global_position) + " angle " +  str(dir))
 		var speed = 30000
-		var dmg = 1.0
+		var dmg = 0.5
+		var targetGroup = Target.get_groups()[0]
 		
-		shoot(dmg, speed, dir, spwpnt, "player")
+		shoot(dmg, speed, dir, spwpnt, targetGroup)
 
 func _on_cooldown_timeout() -> void:
 	canShoot = true
@@ -118,3 +123,9 @@ func _on_cooldown_timeout() -> void:
 func _on_range_body_exited(body:Node2D) -> void:
 	if body.is_in_group('bullet'):
 		body.queue_free()
+
+
+func _on_dmg_box_body_entered(body: Node2D) -> void:
+	if body.is_in_group("bullet"):
+		if body.targetGroup == "enemy" && hacked:
+			HEALTH -= body.dmg

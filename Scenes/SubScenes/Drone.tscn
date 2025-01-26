@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cy30twi4bgl3n"]
+[gd_scene load_steps=10 format=3 uid="uid://cy30twi4bgl3n"]
 
 [ext_resource type="Script" path="res://Scripts/Drone.gd" id="1_81ivd"]
 [ext_resource type="Shader" path="res://Shaders/Outline.gdshader" id="2_o8vx0"]
@@ -22,6 +22,9 @@ shader_parameter/line_thickness = 1.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_bukrw"]
 radius = 410.329
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_dkmso"]
+radius = 20.025
+
 [node name="Drone" type="CharacterBody2D" groups=["Enemy"]]
 self_modulate = Color(1, 0, 0, 1)
 script = ExtResource("1_81ivd")
@@ -32,7 +35,7 @@ shape = SubResource("RectangleShape2D_8ta61")
 
 [node name="HackingRadius" type="Area2D" parent="." groups=["hackingradius"]]
 
-[node name="Area" type="CollisionShape2D" parent="HackingRadius" groups=["Enemy"]]
+[node name="Area" type="CollisionShape2D" parent="HackingRadius"]
 shape = SubResource("CircleShape2D_qckk7")
 
 [node name="HackingProgressBar" type="TextureProgressBar" parent="."]
@@ -41,7 +44,7 @@ offset_top = -83.0
 offset_right = 5.99999
 offset_bottom = -58.0
 scale = Vector2(1.88989, 0.966821)
-max_value = 5.0
+max_value = 0.1
 step = 0.02
 nine_patch_stretch = true
 texture_under = SubResource("CompressedTexture2D_2kiu4")
@@ -66,5 +69,11 @@ wait_time = 0.2
 [node name="Range" type="CollisionShape2D" parent="range"]
 shape = SubResource("CircleShape2D_bukrw")
 
+[node name="dmgBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="dmgBox"]
+shape = SubResource("CircleShape2D_dkmso")
+
 [connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]
 [connection signal="body_exited" from="range" to="." method="_on_range_body_exited"]
+[connection signal="body_entered" from="dmgBox" to="." method="_on_dmg_box_body_entered"]

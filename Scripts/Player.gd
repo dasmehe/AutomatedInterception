@@ -60,7 +60,7 @@ func _on_damage_box_body_entered(body:Node2D) -> void:
 			# If you die changes the scene to deathscreen
 			get_tree().change_scene_to_file("res://Scenes/DeathScreen.tscn")
 
-	if body.is_in_group("bullet"):
+	if body.is_in_group("bullet") && body.targetGroup == "player":
 		if !IFrames:
 			# Cant take damage for set time
 			IFrames = true
