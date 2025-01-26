@@ -33,9 +33,9 @@ position = Vector2(50.4986, -1.81787)
 curve = SubResource("Curve2D_saefh")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Track"]
-position = Vector2(-439.93, -83.0381)
-rotation = 0.00110314
-progress = 6609.7
+position = Vector2(523.893, -215.506)
+rotation = -0.00939742
+progress = 1311.45
 
 [node name="Drone" parent="Track/PathFollow2D" instance=ExtResource("3_ngn76")]
 
@@ -56,6 +56,93 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Sprite" parent="Track/PathFollow2D2/Drone" index="3"]
 position = Vector2(-2.99957, -0.0283051)
+
+[node name="muren" type="Node2D" parent="."]
+z_index = -1
+
+[node name="ColorRect" type="ColorRect" parent="muren"]
+offset_left = -587.0
+offset_top = -252.0
+offset_right = 1649.0
+offset_bottom = -176.0
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="muren"]
+offset_left = 1644.0
+offset_top = -252.0
+offset_right = 2786.0
+offset_bottom = -176.0
+rotation = 1.57079
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="muren"]
+offset_left = -542.0
+offset_top = 820.0
+offset_right = 1643.0
+offset_bottom = 896.0
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="muren"]
+offset_left = 1318.0
+offset_top = -42.0
+offset_right = 2040.0
+offset_bottom = 34.0
+rotation = 1.57079
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="muren"]
+offset_left = 1319.0
+offset_top = 679.0
+offset_right = 2845.0
+offset_bottom = 755.0
+rotation = 3.14159
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="muren"]
+offset_left = 1318.0
+offset_top = -45.0
+offset_right = 3218.0
+offset_bottom = 31.0
+rotation = 3.14159
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="muren"]
+offset_left = -505.0
+offset_top = -115.0
+offset_right = 500.0
+offset_bottom = -39.0
+rotation = 1.57079
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect8" type="ColorRect" parent="muren"]
+offset_left = -135.0
+offset_top = 119.0
+offset_right = 436.0
+offset_bottom = 195.0
+rotation = 1.57079
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect9" type="ColorRect" parent="muren"]
+offset_left = -212.0
+offset_top = 122.0
+offset_right = 1192.0
+offset_bottom = 198.0
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect10" type="ColorRect" parent="muren"]
+offset_left = 1201.0
+offset_top = 116.0
+offset_right = 1445.0
+offset_bottom = 192.0
+rotation = 1.57079
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect11" type="ColorRect" parent="muren"]
+offset_left = 645.0
+offset_top = 284.0
+offset_right = 1195.0
+offset_bottom = 360.0
+color = Color(0, 1, 0, 1)
 
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]
 [connection signal="body_entered" from="Base" to="Base" method="_on_body_entered"]

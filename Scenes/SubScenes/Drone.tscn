@@ -27,6 +27,8 @@ radius = 20.025
 
 [node name="Drone" type="CharacterBody2D" groups=["Enemy"]]
 self_modulate = Color(1, 0, 0, 1)
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_81ivd")
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
@@ -65,6 +67,8 @@ position = Vector2(56, 0)
 wait_time = 0.2
 
 [node name="range" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
 
 [node name="Range" type="CollisionShape2D" parent="range"]
 shape = SubResource("CircleShape2D_bukrw")

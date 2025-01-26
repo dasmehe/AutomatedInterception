@@ -38,7 +38,21 @@ func onMouseEntered():
 
 func SetTarget():
 	if !hacked:
-		Target = player
+		var all_friendlys : Array[Node] = get_tree().get_nodes_in_group("friendlys")
+		var closest_friendly = null
+		print_debug(get_groups())
+
+		if all_friendlys.is_empty():
+			print_debug("Fuck, there are no friendlys to kill")
+			pass
+		if (all_friendlys.size() > 0):
+			closest_friendly = all_friendlys[0]
+			for friendly in all_friendlys:
+				var distance_to_this_friendly = global_position.distance_squared_to(friendly.global_position)
+				var distance_to_closest_friendly = global_position.distance_squared_to(closest_friendly.global_position)
+				if (distance_to_this_friendly < distance_to_closest_friendly):
+					closest_friendly = friendly
+			Target = closest_friendly
 	else:
 		var all_enemys : Array[Node] = get_tree().get_nodes_in_group("Enemy")
 		var closest_enemy = null
@@ -61,6 +75,11 @@ func SetTarget():
 func on_hack():
 	remove_from_group("Enemy")
 	add_to_group("hacked")
+	add_to_group("friendlys")
+	set_collision_layer_value(1, true)
+	set_collision_layer_value(2, false)
+	set_collision_mask_value(1, true)
+	set_collision_mask_value(2, false)
 	SetTarget()
 
 func shoot(dmg : float, speed : int, dir : Vector2, swnpnt : Vector2, targetGroup : String) -> void:
@@ -78,6 +97,16 @@ func shoot(dmg : float, speed : int, dir : Vector2, swnpnt : Vector2, targetGrou
 	bullet.speed = speed
 	bullet.dir = dir
 	bullet.targetGroup = targetGroup
+	if targetGroup != "player":
+		bullet.set_collision_layer_value(2, true)
+		bullet.set_collision_layer_value(1, false)
+		bullet.set_collision_mask_value(2, true)
+		bullet.set_collision_mask_value(1, false)
+	else:
+		bullet.set_collision_layer_value(1, true)
+		bullet.set_collision_layer_value(2, false)
+		bullet.set_collision_mask_value(1, true)
+		bullet.set_collision_mask_value(2, false)
 	
 	# Adds the made bullet to the scene
 	get_parent().get_parent().add_child(bullet)

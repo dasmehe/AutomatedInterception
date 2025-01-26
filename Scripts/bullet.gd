@@ -23,3 +23,9 @@ func _process(delta: float) -> void:
 	#                                            _		    _
 	# What it does is a mystery, but it works so  \__(")__/
 	move_and_slide()
+
+func _on_area_2d_body_entered(body:Node2D) -> void:
+	#bullets of same group hitting shopukd dissa^pear, doesnrt work yet
+	if body.is_in_group("bullet"):
+		body.queue_free()
+		queue_free()
