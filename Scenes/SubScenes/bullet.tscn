@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://ceymgkihdnp51"]
+
+[ext_resource type="Texture2D" uid="uid://bv4xh8w7yeaic" path="res://icon.svg" id="1_886qg"]
+[ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_y1qf0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_45ofr"]
+radius = 5.0
+height = 38.0
+
+[node name="Bullet" type="CharacterBody2D" groups=["bullet"]]
+script = ExtResource("1_y1qf0")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, 3.8147e-06)
+scale = Vector2(0.304688, 0.101563)
+texture = ExtResource("1_886qg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_45ofr")

@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvwumbfgubx3e"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7p2ss"]
+font_size = 90
+font_color = Color(0, 0, 0, 1)
+
+[node name="DeathScreen" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 2311.0
+offset_bottom = 1322.0
+color = Color(1, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_right = 2306.0
+offset_bottom = 155.0
+text = "                                         you died"
+label_settings = SubResource("LabelSettings_7p2ss")
