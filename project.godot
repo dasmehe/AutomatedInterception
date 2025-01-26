@@ -33,6 +33,7 @@ Enemy="for enemys"
 player=""
 hackingradius=""
 bullet=""
+Hacked="for hacked enemys"
 
 [input]
 

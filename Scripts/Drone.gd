@@ -43,11 +43,21 @@ func SetTarget():
 
 		if all_enemys.is_empty():
 			print_debug("Fuck, there are no enemys to kill")
-		for enemy in all_enemys:
-			closest_enemy = all_enemys[0]
+			Target = null
+		else:
+			for enemy in all_enemys:
+				closest_enemy = all_enemys[0]
+				var this_enemys_distance = global_position.distance_squared_to(enemy.global_position)
+				var closest_enemys_distance = global_position.distance_squared_to(closest_enemy.global_position)
+				if this_enemys_distance > closest_enemys_distance:
+					closest_enemys_distance = this_enemys_distance
+					closest_enemy = enemy
+			Target = closest_enemy
 
-
-		Target = closest_enemy 
+func on_hacked():
+	SetTarget()
+	remove_from_group("Enemy")
+	add_to_group("Hacked")
 
 func shoot(dmg : float, speed : int, dir : Vector2, swnpnt : Vector2, targetGroup : String) -> void:
 
@@ -82,6 +92,7 @@ func _process(delta):
 	# Makes the enemy hacked
 	if $HackingProgressBar.max_value == $HackingProgressBar.value:
 		hacked = true
+		on_hacked()
 	
 	# Only moves if not hacked
 	if !hacked:
